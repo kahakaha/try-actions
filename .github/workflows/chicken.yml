@@ -1,0 +1,21 @@
+name: Chicken
+
+on:
+  issues:
+    types: [ "labeled" ]
+
+jobs:
+  repeat:
+    if: github.event.label.name == 'chicken'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Repeat words
+        run: gh issue comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          BODY: >
+            :chicken: : ${{ github.event.issue.body }}
